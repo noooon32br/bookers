@@ -1,4 +1,14 @@
 <!DOCTYPE html>
+<html>
+  <head>
+    <title>WebCampBackendNew</title>
+  </head>
+
+  <body>
+  <div class="flash">
+    <%= flash[:notice] %>
+  </div>
+
 <h1>Books</h1>
 
   <table>
@@ -12,20 +22,23 @@
 
     <tbody>
       <% @books.each do |book| %>
-      <td><%= book.title %></td>
-      <td><%= book.body %></td>
+      <tr>
+        <td><%= book.title %></td>
+        <td><%= book.body %></td>
 
-      <td><%= link_to "Show", book_path(book.id) %>
-      <%= link_to "Edit", edit_book_path(book.id) %>
-      <%= link_to "Destroy", book_path(book.id), method: :delete, "data-confirm" => "本当に削除しますか？" %>
-      </td>
+        <td>
+        <%= link_to "Show", book_path(book.id) %>
+        <%= link_to "Edit", edit_book_path(book.id) %>
+        <%= link_to "Destroy", book_path(book.id), method: :delete, "data-confirm" => "Are you sure?" %>
+        </td>
+      </tr>
       <% end %>
     </tbody>
   </table>
 
-  <h4>New book</h4>
+  <h2>New book</h2>
   <% if @book.errors.any? %>
-    <%= @book.errors.count %>つのエラーにより、この本の保存が禁止されました。
+    <%= @book.errors.count %>errors prohibited this book from being saved:
     <ul>
       <% @book.errors.full_messages.each do |massage| %>
         <li><%= massage %></li>
@@ -34,13 +47,21 @@
   <% end %>
 
   <%= form_with model: @book do |f| %>
-  <p>Title</p>
+  <div class="post">
+    Title<br>
   <%= f.text_field :title %>
+  </div>
 
-  <p>Body</p>
+  <div class="post">
+    Body<br>
   <%= f.text_area :body %>
+  </div>
 
-  <%= f.submit 'Create Book' %>
+  <div><%= f.submit 'Create Book' %></div>
 
 
   <% end %>
+
+  </body>
+
+  </html>
