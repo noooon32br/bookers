@@ -1,17 +1,46 @@
+<!DOCTYPE html>
 <h1>Books</h1>
 
-<% @books.each do |book| %>
+  <table>
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Body</th>
+        <th colspan="3"></th>
+      </tr>
+    </thead>
 
+    <tbody>
+      <% @books.each do |book| %>
+      <td><%= book.title %></td>
+      <td><%= book.body %></td>
+
+      <td><%= link_to "Show", book_path(book.id) %>
+      <%= link_to "Edit", edit_book_path(book.id) %>
+      <%= link_to "Destroy", book_path(book.id), method: :delete, "data-confirm" => "本当に削除しますか？" %>
+      </td>
+      <% end %>
+    </tbody>
+  </table>
+
+  <h4>New book</h4>
+  <% if @book.errors.any? %>
+    <%= @book.errors.count %>つのエラーにより、この本の保存が禁止されました。
+    <ul>
+      <% @book.errors.full_messages.each do |massage| %>
+        <li><%= massage %></li>
+      <% end %>
+    </ul>
+  <% end %>
+
+  <%= form_with model: @book do |f| %>
   <p>Title</p>
-  <span><%= book.title %></span>
-
-  <%= link_to "Show", show_book_path(@book.id) %>
-  <%= link_to "Edit", edit_book_path(@book.id) %>
-  <%= link_to "Destroy", destroy_book_path(@book.id), method: :delete, "data-confirm" => "本当に削除しますか？" %>
+  <%= f.text_field :title %>
 
   <p>Body</p>
-  <span><%= book.body %></span>
+  <%= f.text_area :body %>
+
+  <%= f.submit 'Create Book' %>
 
 
-
-<% end %>
+  <% end %>
